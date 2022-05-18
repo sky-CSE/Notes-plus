@@ -1,5 +1,6 @@
 package com.example.notes.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,8 +40,10 @@ fun NoteScreen(
     var description by remember {
         mutableStateOf("")
     }
+    //in Jetpack, there are no Activity hence no Context can be accessed directly
+    val context = LocalContext.current
 
-    Column() {
+    Column {
         TopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.app_name))
@@ -75,31 +79,33 @@ fun NoteScreen(
                 })
 
             NoteButton(
-                modifier = Modifier.padding(top = 9.dp, bottom = 8.dp),
                 text = "Save",
                 onClick = {
                     if (title.isNotEmpty() && description.isNotEmpty()) {
+                        //save the note
+                        onAddNote(Note(title = title, description = description))
+
                         //clear the field
                         title = ""
                         description = ""
+
+                        //Show that the note is added
+                        Toast.makeText(context, "Note Added", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 })
         }
         Divider(Modifier.padding(10.dp))
         LazyColumn {
             items(notes) { note ->
-                NoteRow(note = note, onNoteClicked = {})
+                NoteRow(note = note, onNoteClicked = {
+                    onRemoveNote(it)
+                })
             }
         }
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun NoteScreenPreview() {
-    NoteScreen(notes = NotesDataSource().loadNotes(), onAddNote = {}, onRemoveNote = {})
-}
 
 @Composable
 fun NoteRow(
@@ -120,7 +126,11 @@ fun NoteRow(
                 .clickable { onNoteClicked(note) }
                 .padding(horizontal = 14.dp, vertical = 6.dp),
             horizontalAlignment = Alignment.Start) {
-            Text(text = note.title, style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
+            Text(
+                text = note.title,
+                style = MaterialTheme.typography.subtitle1,
+                fontWeight = FontWeight.Medium
+            )
             Text(text = note.description, style = MaterialTheme.typography.subtitle2)
             Text(
                 text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
@@ -129,4 +139,11 @@ fun NoteRow(
         }
     }
 
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun NoteScreenPreview() {
+    NoteScreen(notes = NotesDataSource().loadNotes(), onAddNote = {}, onRemoveNote = {})
 }
