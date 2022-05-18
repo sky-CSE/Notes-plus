@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.notes.data.NotesDataSource
 import com.example.notes.screens.NoteScreen
 import com.example.notes.ui.theme.NotesTheme
 
