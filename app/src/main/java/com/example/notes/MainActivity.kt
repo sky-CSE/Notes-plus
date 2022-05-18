@@ -13,7 +13,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.notes.screens.NoteScreen
 import com.example.notes.ui.theme.NotesTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+//@AndroidEntryPoint tells that this is a dependency container,
+// viz means we are able to get dependencies here
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
