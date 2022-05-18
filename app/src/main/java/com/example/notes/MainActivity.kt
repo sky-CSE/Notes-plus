@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.notes.data.NotesDataSource
 import com.example.notes.screens.NoteScreen
 import com.example.notes.ui.theme.NotesTheme
 
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NotesTheme {
                 MyApp {
-                    NoteScreen()
+                    NoteScreen(notes = NotesDataSource().loadNotes(),{},{})
                 }
             }
         }
@@ -39,6 +40,6 @@ fun MyApp(content : @Composable () -> Unit){
 @Composable
 fun DefaultPreview() {
     NotesTheme {
-        NoteScreen()
+        NoteScreen(notes = NotesDataSource().loadNotes(),{},{})
     }
 }
