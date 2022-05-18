@@ -34,7 +34,7 @@ android {
         // For AGP 4.1+
 //        isCoreLibraryDesugaringEnabled = true
         // For AGP 4.0
-         coreLibraryDesugaringEnabled = true
+        coreLibraryDesugaringEnabled = true
 
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -70,4 +70,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    //view model
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 }

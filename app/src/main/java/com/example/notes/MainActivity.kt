@@ -3,15 +3,15 @@ package com.example.notes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.notes.data.NotesDataSource
-import com.example.notes.model.Note
 import com.example.notes.screens.NoteScreen
 import com.example.notes.ui.theme.NotesTheme
 
@@ -20,40 +20,32 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NotesTheme {
-                MyApp {
-                    //a mutableListOf Notes , 'notes' is a state tracking this
-                    val notes = remember {
-                        mutableListOf<Note>()
-                    }
-
-                    NoteScreen(
-                        notes = notes,
-                        onAddNote = {
-                            notes.add(it)
-                        },
-                        onRemoveNote = {
-                            notes.remove(it)
-                        })
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    val noteViewModel: NoteViewModel by viewModels()
+                    NoteApp(noteViewModel)
                 }
             }
         }
     }
 }
 
+//changing and adding to single truth i.e. noteViewModel
 @Composable
-fun MyApp(content: @Composable () -> Unit) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
-    ) {
-        content()
-    }
+fun NoteApp(noteViewModel: NoteViewModel = viewModel()) {
+    val notesList = noteViewModel.getAllNotes()
+
+    NoteScreen(notes = notesList,
+        onRemoveNote = { noteViewModel.removeNote(it)},
+        onAddNote = { noteViewModel.addNote(it) })
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     NotesTheme {
-        NoteScreen(notes = NotesDataSource().loadNotes(), {}, {})
+
     }
 }

@@ -100,6 +100,9 @@ fun NoteScreen(
             items(notes) { note ->
                 NoteRow(note = note, onNoteClicked = {
                     onRemoveNote(it)
+                    //Show that the note is deleted
+                    Toast.makeText(context, "Note Deleted", Toast.LENGTH_SHORT)
+                        .show()
                 })
             }
         }
