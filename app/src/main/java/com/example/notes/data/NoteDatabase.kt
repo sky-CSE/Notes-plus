@@ -6,6 +6,5 @@ import com.example.notes.model.Note
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class NoteDatabase : RoomDatabase() {
-
-    abstract fun noteDao(): NoteDatabaseDao()
+    abstract fun noteDao(): NoteDatabaseDao
 }
