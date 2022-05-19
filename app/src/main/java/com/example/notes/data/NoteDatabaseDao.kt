@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDatabaseDao {
 
     @Query("SELECT * FROM notes_table")
-    suspend fun getNotes():
+    fun getNotes():
             Flow<List<Note>>
     //MutableState<List<Note>> will give lot of headaches
     // for that we have a data structure which will act as state i.e. Flow
