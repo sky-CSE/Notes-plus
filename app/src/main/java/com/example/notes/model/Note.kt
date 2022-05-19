@@ -1,12 +1,24 @@
 package com.example.notes.model
 
-import java.time.LocalDateTime
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.time.Instant
 import java.util.*
 
-//De-sugaring is enabled in grade to use LocalDateTime in devices with Api <26
+@Entity(tableName = "notes_table")
 data class Note(
+
+    @PrimaryKey
     val id: UUID = UUID.randomUUID(),//generates UUID by default for every note
+
+    @ColumnInfo(name = "note_title")
     val title: String,
+
+    @ColumnInfo(name = "note_description")
     val description: String,
-    val entryDate: LocalDateTime = LocalDateTime.now()
+
+    @ColumnInfo(name = "note_entry_date")
+    val entryDate: Date = Date.from(Instant.now())
+//De-sugaring is enabled in gradle, to use LocalDateTime in devices with Api <26
 )
